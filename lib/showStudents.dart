@@ -42,7 +42,7 @@ class _ShowStudentsState extends State<ShowStudents> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(),
+        title: Text("Course app"),
       ),
       body: Center(
           child: _dbloaded

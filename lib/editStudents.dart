@@ -46,74 +46,92 @@ class _editStudentsState extends State<editStudents> {
     });
   }
 
+  void _editStudent(id, fname) {
+    setState(() {
+      widget.api.editStudentByID(id, fname);
+      Navigator.pop(context);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MyHomePage()));
+    });
+  }
+
+  TextEditingController nameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Class App"),
+        title: Text(
+          widget.fname + " " + widget.lname,
+          style: TextStyle(fontSize: 25),
+        ),
       ),
       body: Center(
-          child: _dbloaded
-              ? Column(
-                  children: [
-                    Expanded(
-                      child: ListView(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.all(15.0),
-                          children: [
-                            ...students
-                                .map<Widget>(
-                                  (students) => Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 30),
-                                    child: TextButton(
-                                      onPressed: () => {
-                                        Navigator.pop(context),
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    editStudents(
-                                                        students['_id'],
-                                                        students['fname'],
-                                                        students['lname'],
-                                                        students['studentID']
-                                                            .toString(),
-                                                        students['dateEntered']
-                                                            .toString()))),
-                                      },
-                                      child: ListTile(
-                                        leading: CircleAvatar(
-                                          radius: 30,
-                                          child: Text(students['courseID']),
-                                        ),
-                                        title: Text(
-                                          (students['fname'] +
-                                              ['lname'] +
-                                              " \n" +
-                                              students['studentID']),
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
-                          ]),
-                    ),
-                  ],
-                )
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Database Loading",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    CircularProgressIndicator()
-                  ],
-                )),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    "change first name",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.text,
+                    controller: nameController,
+                  ),
+                  ElevatedButton(
+                      onPressed: () => {
+                            _editStudent(widget.id, nameController.text),
+                          },
+                      child: Text("Change name")),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.home),
+          onPressed: () => {
+                Navigator.pop(context),
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MyHomePage())),
+              }),
     );
   }
 }
+
+
+
+
+
+
+
+ /* @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.fname),
+      ),
+      body: Center(
+        child: Column(children: <Widget>[
+          Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: <Widget>[],
+              ))
+        ]),
+      ),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.home),
+          onPressed: () => {
+                Navigator.pop(context),
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MyHomePage())),
+              }),
+    );
+  }
+}
+*/
