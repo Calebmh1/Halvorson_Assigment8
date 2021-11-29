@@ -7,14 +7,16 @@ import 'main.dart';
 class ShowStudents extends StatefulWidget {
   final CourseApi api = CourseApi();
 
-  ShowStudents();
+  final String id;
+  final String courseName;
+  ShowStudents(this.id, this.courseName);
 
   @override
-  _ShowStudentsState createState() => _ShowStudentsState();
+  _ShowStudentsState createState() => _ShowStudentsState(id, courseName);
 }
 
 class _ShowStudentsState extends State<ShowStudents> {
-  _ShowStudentsState();
+  _ShowStudentsState(id, courseName);
 
   List courses = [];
   List students = [];
@@ -38,11 +40,30 @@ class _ShowStudentsState extends State<ShowStudents> {
     });
   }
 
+  void _deleteCourse(id) {
+    setState(() {
+      widget.api.deleteCourseByID(id);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MyHomePage()));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Course app"),
+        title: Text(widget.courseName),
+        actions: <Widget>[
+          PopupMenuItem(
+            onTap: () {
+              _deleteCourse(widget.id);
+            },
+            child: Text(
+              "DELETE COURSE?",
+              style: TextStyle(color: Colors.red),
+            ),
+          )
+        ],
       ),
       body: Center(
           child: _dbloaded

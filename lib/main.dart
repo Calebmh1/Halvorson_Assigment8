@@ -80,7 +80,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ShowStudents())),
+                                                    ShowStudents(
+                                                        courses['_id'],
+                                                        courses[
+                                                            'courseName']))),
                                       },
                                       child: ListTile(
                                         leading: CircleAvatar(
